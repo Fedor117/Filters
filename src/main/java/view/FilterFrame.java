@@ -1,5 +1,7 @@
 package view;
 
+import controller.FilterController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -9,12 +11,15 @@ public class FilterFrame extends JFrame {
 
     public static final String NAME = "Filter Frame";
 
-    private ArrayList<BufferedImage> images;
-    private ArrayList<JLabel>        labels;
-    private JPanel                   imagePanel;
+    private FilterController         mController;
+    private ArrayList<JLabel>        labels      = new ArrayList<JLabel>();
+    private JPanel                   imagePanel  = new JPanel();
 
-    public FilterFrame(ArrayList<BufferedImage> images) {
+    public FilterFrame(FilterController controller) {
         super(NAME);
+
+        this.mController = controller;
+        mController.processImages();
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension dimension = toolkit.getScreenSize();
@@ -22,24 +27,17 @@ public class FilterFrame extends JFrame {
         setLocation(dimension.width / 15, dimension.height / 5);
         setSize(dimension.width / 5 * 3, dimension.height / 5 * 3);
 
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Nimbus is not available");
-        }
-
-        setImages();
         imagePanel.setLayout(new FlowLayout());
+
+        this.setImages();
         this.add(imagePanel);
         this.pack();
+        this.setVisible(true);
     }
 
     private void setImages() {
+        ArrayList<BufferedImage> images = mController.getImages();
+
         for (BufferedImage image: images) {
             ImageIcon icon = new ImageIcon(image);
             JLabel label = new JLabel();
@@ -47,8 +45,7 @@ public class FilterFrame extends JFrame {
             labels.add(label);
         }
 
-        for (JLabel label : labels) {
+        for (JLabel label : labels)
             imagePanel.add(label);
-        }
     }
 }

@@ -1,7 +1,11 @@
 package controller;
 
-/**
- * Created by Fedor on 26.04.2016.
- */
+import view.FilterFrame;
+
 public class EntryPoint {
+
+    public static void main(String[] args) {
+        new FilterFrame(new FilterController());
+    }
+
 }
