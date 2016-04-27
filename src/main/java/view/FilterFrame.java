@@ -28,9 +28,12 @@ public class FilterFrame extends JFrame {
         setSize(dimension.width / 5 * 3, dimension.height / 5 * 3);
 
         imagePanel.setLayout(new FlowLayout());
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.add(imagePanel);
 
         this.setImages();
-        this.add(imagePanel);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.add(scrollPane);
         this.pack();
         this.setVisible(true);
     }
